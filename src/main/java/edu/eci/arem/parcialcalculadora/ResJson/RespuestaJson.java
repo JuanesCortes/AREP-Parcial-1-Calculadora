@@ -9,7 +9,7 @@ import edu.eci.arem.parcialcalculadora.CalcImp.Calculadora;
  */
 public class RespuestaJson {
     public static String generarJsonString(String op, String num){
-        int res = Calculadora.calcular(op,num);
+        float res = Calculadora.calcular(op,num);
         return "{\"operacion\": \""+op+"\", \"numero\": \""+num+"\", \"respuesta\": \""+res+"\" }";
     }
 }
