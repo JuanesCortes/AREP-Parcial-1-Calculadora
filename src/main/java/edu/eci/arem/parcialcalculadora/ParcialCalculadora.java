@@ -7,8 +7,7 @@ package edu.eci.arem.parcialcalculadora;
 import edu.eci.arem.parcialcalculadora.ResJson.RespuestaJson;
 import java.net.*;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class ParcialCalculadora {
 
