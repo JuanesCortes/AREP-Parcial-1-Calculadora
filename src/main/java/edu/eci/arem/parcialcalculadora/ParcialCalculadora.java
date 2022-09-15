@@ -8,7 +8,6 @@ import edu.eci.arem.parcialcalculadora.ResJson.RespuestaJson;
 import java.net.*;
 import java.io.*;
 
-
 public class ParcialCalculadora {
 
     public static void main(String[] args) throws IOException {
@@ -45,26 +44,37 @@ public class ParcialCalculadora {
                     break;
                 }
             }
-            try {
-                if (validar(entrada)) {
-                    outputLine
-                            = "HTTP/1.1 200 OK\r\n"
-                            + "Content-Type: text/Json\r\n"
-                            + "\r\n"
-                            + RespuestaJson.generarJsonString(getOp(entrada),getNum(entrada));
+            if (entrada.equals("/")) {
+                outputLine
+                        = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/Json\r\n"
+                        + "\r\n";
+                out.println(outputLine);
+                out.close();
+                in.close();
+                clientSocket.close();
+            } else {
+                try {
+                    if (validar(entrada)) {
+                        outputLine
+                                = "HTTP/1.1 200 OK\r\n"
+                                + "Content-Type: text/Json\r\n"
+                                + "\r\n"
+                                + RespuestaJson.generarJsonString(getOp(entrada), getNum(entrada));
+                        out.println(outputLine);
+                        out.close();
+                        in.close();
+                        clientSocket.close();
+                    } else {
+                        throw new ParcialCalculadoraException(ParcialCalculadoraException.HTTP_E_500);
+                    }
+                } catch (ParcialCalculadoraException ex) {
+                    outputLine = ex.getMessage();
                     out.println(outputLine);
                     out.close();
                     in.close();
                     clientSocket.close();
-                }else{
-                    throw new ParcialCalculadoraException(ParcialCalculadoraException.HTTP_E_500);
                 }
-            }catch (ParcialCalculadoraException ex) {
-                outputLine = ex.getMessage();
-                    out.println(outputLine);
-                    out.close();
-                    in.close();
-                    clientSocket.close();
             }
 
         }
@@ -89,8 +99,8 @@ public class ParcialCalculadora {
     }
 
     public static String getOp(String ent) throws ParcialCalculadoraException {
-        try{
-        return ent.substring(1, 4);
+        try {
+            return ent.substring(1, 4);
         } catch (Exception ex) {
             throw new ParcialCalculadoraException(ParcialCalculadoraException.HTTP_E_500);
         }
